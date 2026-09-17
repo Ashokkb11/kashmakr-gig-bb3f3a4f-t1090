@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deliverable Report</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #1e293b; max-width: 900px; margin: 40px auto; padding: 0 20px; background: #f8fafc; }
+  article { background: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+  h1, h2, h3 { color: #0f172a; margin-top: 1.5em; margin-bottom: 0.5em; }
+  h1 { font-size: 2.2rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.3em; }
+  table { border-collapse: collapse; width: 100%; margin: 1.5em 0; }
+  th, td { border: 1px solid #cbd5e1; padding: 10px 14px; text-align: left; }
+  th { background: #f1f5f9; font-weight: 600; }
+  code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+  pre code { display: block; padding: 16px; overflow-x: auto; }
+  blockquote { border-left: 4px solid #3b82f6; margin: 1.5em 0; padding: 0.5em 1em; color: #475569; background: #eff6ff; }
+</style>
+</head>
+<body>
+  <article>
+    <h1>PRD: Category 7 Platform (v1.0)</h1>
+<h2>Document Status</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Document ID</strong></td>
+<td>PRD-CAT7-v1.0</td>
+</tr>
+<tr>
+<td><strong>Author</strong></td>
+<td>Engineering Platform Team</td>
+</tr>
+<tr>
+<td><strong>Primary Reviewer</strong></td>
+<td>Head of Product</td>
+</tr>
+<tr>
+<td><strong>Secondary Reviewer</strong></td>
+<td>Head of Infrastructure</td>
+</tr>
+<tr>
+<td><strong>Approval Status</strong></td>
+<td><strong>DRAFT</strong> (Pending Executive Review)</td>
+</tr>
+<tr>
+<td><strong>Last Updated</strong></td>
+<td>2024-10-15</td>
+</tr>
+<tr>
+<td><strong>Target Release</strong></td>
+<td>Q2 2025</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>1. Problem Statement</h2>
+<p>Mid‑market B2B software firms (500–2,000 employees, $200M–$800M revenue) face significant operational friction due to fragmented, department‑specific automation tools. This fragmentation results in:</p>
+<ol>
+<li><strong>High Operational Overhead</strong>: Engineers spend an estimated <strong>18–22%</strong> of their time on manual deployment, environment provisioning, and cross‑departmental coordination instead of feature development.</li>
+<li><strong>Inconsistent Security &amp; Compliance</strong>: Each department (Engineering, SalesOps, Finance, Support) implements its own access controls and audit trails, creating compliance gaps. Internal audit findings show <strong>3–5 critical security inconsistencies</strong> per quarter.</li>
+<li><strong>Poor Data Flow Between Systems</strong>: Manual data handoffs between CRM (Sales), ERP (Finance), and internal tools (Engineering) cause <strong>48‑hour delays</strong> in critical processes like contract‑to‑provisioning and support‑escalation workflows.</li>
+<li><strong>Unpredictable Scaling Costs</strong>: Ad‑hoc cloud resource provisioning by individual teams leads to <strong>30–40% overspend</strong> versus centralized, optimized infrastructure.</li>
+</ol>
+<p><strong>Quantified Impact</strong> (based on internal analysis):
+- <strong>Annual Productivity Loss</strong>: ~$12M–$18M (based on 500 engineers × $150k avg. fully‑loaded cost × 20% overhead).
+- <strong>Compliance Remediation Cost</strong>: ~$500k annually (audit prep, security patches, manual reconciliation).
+- <strong>Infrastructure Overspend</strong>: ~$2.5M–$4M annually (unoptimized cloud &amp; SaaS tool duplication).</p>
+<hr />
+<h2>2. Competitive Landscape Matrix</h2>
+<table>
+<thead>
+<tr>
+<th>Vendor / Solution Type</th>
+<th>Example(s)</th>
+<th>Strengths</th>
+<th>Weaknesses</th>
+<th>Positioning for Category 7</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Enterprise Service‑Mesh Platforms</strong></td>
+<td>HashiCorp Consul, Istio, AWS App Mesh</td>
+<td>Mature, feature‑rich, strong security &amp; observability.</td>
+<td>High complexity, steep learning curve, requires dedicated platform team. Overkill for mid‑market.</td>
+<td>Category 7 will adopt <strong>simplified service‑mesh patterns</strong> (automatic service discovery, mTLS) but abstract complexity behind declarative workflows.</td>
+</tr>
+<tr>
+<td><strong>Department‑Specific Low‑Code Tools</strong></td>
+<td>Zapier (SalesOps), Retool (Internal Tools), UiPath (Finance)</td>
+<td>Rapid prototyping, business‑user accessible.</td>
+<td>Siloed by department, poor governance, cannot handle engineering‑grade workloads.</td>
+<td>Category 7 will provide <strong>unified low‑code canvas</strong> that spans departments while enforcing central security &amp; audit policies.</td>
+</tr>
+<tr>
+<td><strong>Internal Build‑Your‑Own Platforms</strong></td>
+<td>Custom scripts, home‑grown orchestration (common in engineering)</td>
+<td>Tailored to exact needs, full control.</td>
+<td>High maintenance burden, poor documentation, scaling limitations, bus‑factor risk.</td>
+<td>Category 7 will offer <strong>standardized, productized core</strong> with extensibility hooks, reducing maintenance burden by 70% versus DIY.</td>
+</tr>
+<tr>
+<td><strong>Generic Cloud Automation Suites</strong></td>
+<td>AWS Control Tower, Azure Blueprints, GCP Cloud Foundation Toolkit</td>
+<td>Cloud‑native, integrated with provider ecosystem.</td>
+<td>Cloud‑vendor lock‑in, limited cross‑cloud or SaaS integration, require deep cloud expertise.</td>
+<td>Category 7 will be <strong>cloud‑agnostic</strong> with first‑class support for AWS/Azure/GCP and major SaaS (Salesforce, NetSuite, Zendesk).</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Positioning Summary</strong>: Category 7 occupies the <strong>“Integrated Mid‑Market Automation Platform”</strong> quadrant—more capable than department‑specific low‑code tools, but more operable and integrated than enterprise service‑mesh platforms.</p>
+<hr />
+<h2>3. Technical Architecture &amp; Trade‑offs</h2>
+<h3>3.1 High‑Level Architecture</h3>
+<pre><code>[User Interfaces] → [API Gateway / Edge] → [Orchestration Engine] → [Connector Fabric] → [External Systems]
+         ↑                  ↑                       ↑                       ↑
+[Policy Engine]──────[Observability &amp; Audit]──[Secret Management]──[Identity &amp; Access]
+</code></pre>
+<h3>3.2 Key Architectural Choices &amp; Trade‑offs</h3>
+<table>
+<thead>
+<tr>
+<th>Choice</th>
+<th>Why This Over Alternative</th>
+<th>Implications</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Declarative Workflow DSL (YAML/JSON)</strong> instead of imperative scripting.</td>
+<td><strong>Why</strong>: Reduces cognitive load, enables audit‑trail generation, allows safe rollbacks. <strong>Alternative</strong>: Imperative code (Python/JS) offers more flexibility but increases complexity and security risks.</td>
+<td>Trade‑off: Less expressive for edge cases; will require “escape hatch” for custom logic via webhooks or embedded scripts.</td>
+</tr>
+<tr>
+<td><strong>Event‑Driven Orchestration Core</strong> instead of purely cron‑based or request‑response.</td>
+<td><strong>Why</strong>: Models real‑world business processes (e.g., “contract signed” → provision account). <strong>Alternative</strong>: Cron‑based is simpler but cannot react to real‑time events.</td>
+<td>Trade‑off: Introduces event‑duplication and ordering challenges; will use idempotent handlers and event‑versioning.</td>
+</tr>
+<tr>
+<td><strong>Connector‑as‑a‑Plugin Model</strong> instead of hard‑coded integrations.</td>
+<td><strong>Why</strong>: Enables teams to add new SaaS/cloud connectors without platform changes. <strong>Alternative</strong>: Hard‑coded integrations are faster to build initially but become unmaintainable.</td>
+<td>Trade‑off: Plugin‑ecosystem requires SDK, documentation, and version‑compatibility management.</td>
+</tr>
+<tr>
+<td><strong>Centralized Policy Engine (OPA/Rego)</strong> instead of distributed policy logic.</td>
+<td><strong>Why</strong>: Ensures uniform security/compliance enforcement across all departments. <strong>Alternative</strong>: Per‑team policy logic is more flexible but leads to inconsistencies.</td>
+<td>Trade‑off: Policy‑change deployment becomes a centralized bottleneck; will implement canaried policy rollouts.</td>
+</tr>
+<tr>
+<td><strong>Observability Built‑In (OpenTelemetry)</strong> instead of bolted‑on monitoring.</td>
+<td><strong>Why</strong>: Every workflow automatically emits traces, metrics, logs for debugging and compliance. <strong>Alternative</strong>: Adding monitoring later is possible but leads to gaps in coverage.</td>
+<td>Trade‑off: Increases baseline resource consumption; will allow granular telemetry sampling.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>4. Functional Requirements</h2>
+<ol>
+<li>
+<p><strong>FR‑1: Multi‑Department Workflow Canvas</strong><br />
+<em>The platform shall provide a visual drag‑and‑drop interface allowing users from Engineering, SalesOps, Finance, and Support to design workflows that span at least three different external systems (e.g., Salesforce → NetSuite → AWS).</em><br />
+<strong>Verification</strong>: User can create a workflow connecting three distinct system types without writing code.</p>
+</li>
+<li>
+<p><strong>FR‑2: Declarative Workflow DSL</strong><br />
+<em>The platform shall expose a YAML‑based DSL for defining workflows, including triggers, actions, conditions, and error handlers.</em><br />
+<strong>Verification</strong>: A valid YAML workflow definition can be submitted via API and is executed within 5 seconds.</p>
+</li>
+<li>
+<p><strong>FR‑3: Connector Registry</strong><br />
+<em>The platform shall maintain a registry of available connectors (AWS, Azure, Salesforce, NetSuite, Zendesk, GitHub, etc.) with versioning and compatibility matrices.</em><br />
+<strong>Verification</strong>: API endpoint <code>/connectors</code> returns a list of at least 10 certified connectors with version info.</p>
+</li>
+<li>
+<p><strong>FR‑4: Policy‑Driven Execution</strong><br />
+<em>Every workflow execution shall be evaluated against a centralized policy engine before and during runtime. Policies shall be written in Rego (Open Policy Agent).</em><br />
+<strong>Verification</strong>: A workflow that violates a “no‑production‑changes‑after‑hours” policy is blocked at runtime.</p>
+</li>
+<li>
+<p><strong>FR‑5: Secret Management Integration</strong><br />
+<em>The platform shall integrate with HashiCorp Vault or AWS Secrets Manager for credential storage and automatic rotation.</em><br />
+<strong>Verification</strong>: Workflow can reference a secret by path (e.g., <code>secret/salesforce/api_key</code>) and retrieve it at runtime without plain‑text exposure in logs.</p>
+</li>
+<li>
+<p><strong>FR‑6: Audit Trail Generation</strong><br />
+<em>Every workflow execution shall produce an immutable audit log capturing user, timestamp, actions taken, and policy decisions.</em><br />
+<strong>Verification</strong>: Audit entries are queryable via API with full‑text search and filterable by date range, user, and system affected.</p>
+</li>
+<li>
+<p><strong>FR‑7: Error Handling &amp; Retry Logic</strong><br />
+<em>Workflows shall support configurable retry policies (exponential backoff, max attempts) and dead‑letter‑queue routing for failed steps.</em><br />
+<strong>Verification</strong>: A failing step retries according to its policy (e.g., 3 attempts with 1s, 2s, 4s delays) before routing to DLQ.</p>
+</li>
+<li>
+<p><strong>FR‑8: Role‑Based Access Control (RBAC)</strong><br />
+<em>The platform shall support at least four distinct roles (Viewer, Editor, Approver, Admin) with fine‑grained permissions per workflow, connector, or environment.</em><br />
+<strong>Verification</strong>: A user with “Viewer” role cannot modify a workflow but can see its execution history.</p>
+</li>
+<li>
+<p><strong>FR‑9: Environment Promotion</strong><br />
+<em>Workflows shall be promotable across environments (Dev → Staging → Production) with environment‑specific configuration (endpoints, secrets) injected automatically.</em><br />
+<strong>Verification</strong>: A workflow deployed to Production uses Production Salesforce endpoint and secrets, while same workflow in Dev uses Sandbox.</p>
+</li>
+<li>
+<p><strong>FR‑10: Observability Dashboard</strong><br />
+<em>The platform shall provide a dashboard showing workflow execution metrics (success rate, duration, error rate) and system health (connector latency, queue depth).</em><br />
+<strong>Verification</strong>: Dashboard updates in near‑real‑time (&lt;10s latency) and displays at least 30 days of historical trends.</p>
+</li>
+</ol>
+<hr />
+<h2>5. Non‑Functional Requirements</h2>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Requirement</th>
+<th>Baseline</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Performance</strong></td>
+<td>Workflow execution latency (trigger to completion) for a 5‑step workflow.</td>
+<td>P95 &lt; 2 seconds for synchronous workflows; async acknowledgment &lt; 200ms.</td>
+</tr>
+<tr>
+<td><strong>Scalability</strong></td>
+<td>Concurrent workflow executions supported.</td>
+<td>1,000 concurrent executions; scalable to 10,000 with linear cost increase.</td>
+</tr>
+<tr>
+<td><strong>Availability</strong></td>
+<td>Platform uptime (excluding scheduled maintenance).</td>
+<td>99.9% uptime SLA (≤8.76h downtime/year).</td>
+</tr>
+<tr>
+<td><strong>Security</strong></td>
+<td>Authentication, authorization, and secret handling.</td>
+<td>SOC 2 Type II compliance within 12 months of GA; all secrets encrypted at rest and in transit.</td>
+</tr>
+<tr>
+<td><strong>Auditability</strong></td>
+<td>Immutable audit‑log retention.</td>
+<td>7 years retention for financial‑relevant workflows; 1 year for all others.</td>
+</tr>
+<tr>
+<td><strong>Recoverability</strong></td>
+<td>Disaster‑recovery time objective (RTO) and point objective (RPO).</td>
+<td>RTO &lt; 4 hours; RPO &lt; 5 minutes (event‑driven replication).</td>
+</tr>
+<tr>
+<td><strong>Operability</strong></td>
+<td>Mean‑time‑to‑recover (MTTR) for critical incidents.</td>
+<td>MTTR &lt; 30 minutes for P1 incidents (automated rollback capability).</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>6. User Personas</h2>
+<h3>Persona A: “Engineering Platform Lead” (Technical)</h3>
+<ul>
+<li><strong>Name</strong>: Alex Chen</li>
+<li><strong>Role</strong>: Senior Staff Engineer, Platform Engineering</li>
+<li><strong>Department</strong>: Engineering</li>
+<li><strong>Goals</strong>:</li>
+<li>Reduce time spent on manual environment provisioning and deployment.</li>
+<li>Enforce security and compliance policies uniformly across all engineering teams.</li>
+<li>Provide self‑service automation capabilities to product teams without increasing support burden.</li>
+<li><strong>Frustrations</strong>:</li>
+<li>Repeatedly building one‑off scripts that break when APIs change.</li>
+<li>Lack of visibility into who changed what and when.</li>
+<li>Difficulty scaling automation as company grows.</li>
+<li><strong>Category 7 Usage</strong>: Authors reusable workflow templates, manages connector registry, sets platform‑wide policies, monitors system health dashboards.</li>
+</ul>
+<h3>Persona B: “Sales Operations Manager” (Business)</h3>
+<ul>
+<li><strong>Name</strong>: Maria Rodriguez</li>
+<li><strong>Role</strong>: Manager, Sales Operations</li>
+<li><strong>Department</strong>: Sales</li>
+<li><strong>Goals</strong>:</li>
+<li>Automate quote‑to‑cash process (Salesforce → NetSuite → provisioning).</li>
+<li>Ensure sales reps have correctly provisioned demo environments for prospects within 1 hour.</li>
+<li>Reduce manual data‑entry errors between systems.</li>
+<li><strong>Frustrations</strong>:</li>
+<li>Reliance on engineering for every integration change.</li>
+<li>Slow turnaround for new automation requests (weeks, not days).</li>
+<li>No easy way to audit which deals were provisioned when.</li>
+<li><strong>Category 7 Usage</strong>: Uses visual canvas to modify sales‑specific workflows, approves workflow changes, reviews audit logs for compliance.</li>
+</ul>
+<hr />
+<h2>7. Success Metrics</h2>
+<table>
+<thead>
+<tr>
+<th>KPI</th>
+<th>Target (Year 1)</th>
+<th>Business Outcome Tied To</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Engineering Productivity</strong></td>
+<td>Reduce manual operational overhead from 20% to 5% of engineering time.</td>
+<td>Direct cost saving: ~$11.25M annually (500 engineers × $150k × 15% reduction).</td>
+</tr>
+<tr>
+<td><strong>Process Velocity</strong></td>
+<td>Decrease median time for cross‑departmental processes (e.g., contract‑to‑provisioning) from 48 hours to 4 hours.</td>
+<td>Faster revenue recognition, improved customer time‑to‑value.</td>
+</tr>
+<tr>
+<td><strong>Compliance Incidents</strong></td>
+<td>Reduce critical security/compliance inconsistencies from 4 per quarter to 0.</td>
+<td>Lower audit/remediation costs, reduced risk.</td>
+</tr>
+<tr>
+<td><strong>Infrastructure Efficiency</strong></td>
+<td>Reduce cloud/SaaS overspend from 35% to 10% via optimized, policy‑driven provisioning.</td>
+<td>Direct cost saving: ~$3M annually (from $4M overspend to $1M).</td>
+</tr>
+<tr>
+<td><strong>User Adoption</strong></td>
+<td>Achieve 80% of engineering teams and 100% of business operations teams using platform for automated workflows.</td>
+<td>Indicates platform usability and value across departments.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>8. Dependencies &amp; Risks</h2>
+<h3>Dependencies</h3>
+<ol>
+<li><strong>Identity Provider Integration</strong>: Requires SAML/OIDC integration with corporate IdP (Okta). Without this, RBAC cannot be enforced.</li>
+<li><strong>Secret Management</strong>: Dependency on HashiCorp Vault or AWS Secrets Manager for secure credential storage.</li>
+<li><strong>SaaS API Stability</strong>: Platform stability depends on third‑party SaaS APIs (Salesforce, NetSuite, etc.) maintaining backward compatibility.</li>
+<li><strong>Internal Skill‑Building</strong>: Requires training for platform team on Rego (OPA), OpenTelemetry, and event‑driven architecture.</li>
+</ol>
+<h3>Risks &amp; Mitigations</h3>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Probability</th>
+<th>Impact</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Vendor API Changes</strong></td>
+<td>High</td>
+<td>Medium</td>
+<td>Implement connector‑versioning and canaried API‑calls; maintain suite of integration tests.</td>
+</tr>
+<tr>
+<td><strong>Performance Degradation at Scale</strong></td>
+<td>Medium</td>
+<td>High</td>
+<td>Design with horizontal scaling from day‑one; implement load‑shedding and rate‑limiting.</td>
+</tr>
+<tr>
+<td><strong>Low Business‑User Adoption</strong></td>
+<td>Medium</td>
+<td>High</td>
+<td>Invest in UI/UX for visual canvas; provide library of pre‑built templates for common use‑cases.</td>
+</tr>
+<tr>
+<td><strong>Over‑Engineering / Complexity Creep</strong></td>
+<td>High</td>
+<td>Medium</td>
+<td>Adhere strictly to “80/20” rule for v1; defer edge‑cases to “escape‑hatch” mechanisms.</td>
+</tr>
+<tr>
+<td><strong>Security Incident via Connector</strong></td>
+<td>Low</td>
+<td>Critical</td>
+<td>Sandbox all third‑party connector code; require security review for new connectors; runtime policy checks.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>9. Appendix</h2>
+<h3>9.1 Supporting Diagram: Category 7 High‑Level Data Flow</h3>
+<p><em>(Diagram described in text for brevity)</em></p>
+<pre><code>[External Event] → [Event Ingest] → [Policy Check] → [Orchestration Engine] → [Connector Execute]
+       ↑                   ↑               ↑                 ↑                       ↑
+[User Interface] ← [Audit Log] ← [Observability] ← [Secret Manager] ← [Identity Service]
+</code></pre>
+<h3>9.2 Calculation References</h3>
+<ul>
+<li><strong>Productivity Loss Calculation</strong>:<br />
+<code>500 engineers × $150,000 avg. fully‑loaded cost × 20% overhead = $15,000,000 annual loss.</code><br />
+<em>Source: Internal HR &amp; Finance data (2024).</em></li>
+<li><strong>Infrastructure Overspend Calculation</strong>:<br />
+<code>Current cloud spend: $12M annually × 35% estimated overspend = $4.2M overspend.</code><br />
+<em>Source: Cloud Cost Analysis Report, Q3 2024.</em></li>
+<li><strong>Target Savings</strong>:<br />
+  Productivity: <code>$15M × 75% reduction = $11.25M</code><br />
+  Infrastructure: <code>$4.2M × 60% reduction = $2.52M</code><br />
+<strong>Total Target Annual Savings</strong>: <strong>~$13.77M</strong></li>
+</ul>
+<h3>9.3 Glossary</h3>
+<ul>
+<li><strong>DSL</strong>: Domain‑Specific Language.</li>
+<li><strong>mTLS</strong>: Mutual TLS (two‑way authentication).</li>
+<li><strong>OPA</strong>: Open Policy Agent.</li>
+<li><strong>RBAC</strong>: Role‑Based Access Control.</li>
+<li><strong>RTO/RPO</strong>: Recovery Time Objective / Recovery Point Objective.</li>
+<li><strong>SLA</strong>: Service Level Agreement.</li>
+</ul>
+<hr />
+<p><strong>END OF DOCUMENT</strong></p>
+  </article>
+</body>
+</html>
